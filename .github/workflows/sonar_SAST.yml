@@ -1,4 +1,4 @@
-name: SAST with SonarCloud
+name: SAST with SonarCloud 2
 
 on:
   push:
