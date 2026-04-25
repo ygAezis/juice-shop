@@ -1,0 +1,35 @@
+name: "ZAP Baseline Scan"
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  zap_scan:
+    runs-on: ubuntu-latest
+    name: Scan the web applications
+
+    steps:
+      - name: Check out Git repo
+        uses: actions/checkout@v4
+
+      - name: Build juice-shop image
+        run: docker build -t juice-shop:latest .
+
+      - name: Start juice-shop
+        run: |
+          docker run -d --name juice-shop -p 3000:3000 juice-shop:latest
+          sleep 20
+
+      - name: ZAP Scan
+        uses: zaproxy/action-baseline@v0.15.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          docker_name: 'ghcr.io/zaproxy/zaproxy:stable'
+          target: 'http://localhost:3000'
+          rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-a -j'
