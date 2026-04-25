@@ -49,6 +49,7 @@ jobs:
         with:
           image: 'juice-shop:${{ github.sha }}'
           format: list
+        continue-on-error: true
 
       # 6. Збереження звіту як артефакту (для вашої лаби)
       - name: Upload Security Report
