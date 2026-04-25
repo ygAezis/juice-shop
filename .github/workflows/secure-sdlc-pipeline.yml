@@ -44,7 +44,7 @@ jobs:
 
       # 5. Аналіз структури образу (Dockle)
       - name: Run Dockle
-        uses: goodwithtech/dockle-action@v3
+        uses: goodwithtech/dockle-action@main
         with:
           image: 'juice-shop:${{ github.sha }}'
           format: list
